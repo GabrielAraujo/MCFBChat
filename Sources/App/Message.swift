@@ -13,7 +13,7 @@ import HTTP
 class Message {
     static func sendMessage(to:String, text:String) throws -> Status {
         print("Entered send message")
-        print(recipientId)
+        print(to)
         do {
             if let accessToken = drop.config["keys", "fb", "access"]?.string {
                 let params = [
@@ -25,7 +25,7 @@ class Message {
                 ]
                 
                 let node = Node([
-                    "recipient" : try ["id":recipientId].makeNode(),
+                    "recipient" : try ["id":to].makeNode(),
                     "message": try ["text":text].makeNode()
                     ])
                 
