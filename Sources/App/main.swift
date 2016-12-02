@@ -36,7 +36,7 @@ drop.post("webhook") { req in
                         let text = msgEvent.object?["message"]?.object?["text"]?.string //the message's text
                         
                         do {
-                            return try Response(status: Message.sendMessage(recipientId: recipientId!, text: "Received!"))
+                            return try Response(status: Message.sendMessage(to: senderId!, text: "Received!"))
                         }catch let e {
                             return Response(status: .badRequest, body: "Error sendind message")
                         }

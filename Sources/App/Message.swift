@@ -11,7 +11,7 @@ import Vapor
 import HTTP
 
 class Message {
-    static func sendMessage(recipientId:String, text:String) throws -> Status {
+    static func sendMessage(to:String, text:String) throws -> Status {
         print("Entered send message")
         print(recipientId)
         do {
