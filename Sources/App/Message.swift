@@ -13,6 +13,7 @@ import HTTP
 class Message {
     static func sendMessage(recipientId:String, text:String, completion: @escaping (Result<Bool>) -> Void) {
         print("Entered send message")
+        print(recipientId)
         do {
             if let accessToken = drop.config["keys", "fb", "access"]?.string {
                 let params = [
@@ -31,6 +32,8 @@ class Message {
                 let json = try JSON(node: node)
                 let data = json.makeBody()
                 
+                
+                print("Before sending message")
                 let resp = try drop.client.post("https://graph.facebook.com/v2.6/me/messages", headers: headers, query: params, body: data)
                 
                 print(resp)
