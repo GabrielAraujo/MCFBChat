@@ -26,6 +26,7 @@ drop.get("webhook") { req in
 drop.post("webhook") { req in
     print(req)
     if let json = req.json {
+        print(json)
         if json["object"]?.string == "page" {
             for entry in json["entry"]!.array! {
                 for msgEvent in entry.object!["messaging"]!.array! {
@@ -34,19 +35,11 @@ drop.post("webhook") { req in
                         let recipientId = msgEvent.object?["recipient"]?.object?["id"]?.string //the recipient's ID, which should be your page's facebook ID
                         let text = msgEvent.object?["message"]?.object?["text"]?.string //the message's text
                         
-                        Message.sendMessage(recipientId: recipientId!, text: "Received!", completion: {
-                            result in
-                            switch result {
-                            case .success(let re):
-                                print("Sent Message")
-                                break
-                            case .failure(let error):
-                                print("Failed")
-                                print(error)
-                                break
-                            }
-                        })
-                        return "ok"
+                        do {
+                            return try Response(status: Message.sendMessage(recipientId: recipientId!, text: "Received!"))
+                        }catch let e {
+                            return Response(status: .badRequest, body: "Error sendind message")
+                        }
                     }else if let _ = msgEvent.object?["delivery"] {
                         return "ok"
                     }else if let _ = msgEvent.object?["optin"] {

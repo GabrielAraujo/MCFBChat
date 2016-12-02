@@ -1,7 +1,7 @@
 {
     "tls": {
-        "verifyHost": true,
-        "verifyCertificates": true,
+        "verifyHost": false,
+        "verifyCertificates": false,
         "certificates": "mozilla"
     }
 }
