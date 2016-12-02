@@ -24,7 +24,9 @@ drop.get("webhook") { req in
 }
 
 drop.post("webhook") { req in
+    print(req)
     if let json = req.json {
+        print(json)
         if json["object"]?.string == "page" {
             for entry in json["entry"]!.array! {
                 for msgEvent in entry.object!["messaging"]!.array! {
