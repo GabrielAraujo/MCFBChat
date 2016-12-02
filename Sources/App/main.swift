@@ -7,7 +7,7 @@ drop.get("webhook") { req in
     //If does not work try with req.parameters
     if req.query?["hub.mode"]?.string == "subscribe" {
         if let challange = req.query?["hub.challenge"] {
-            if let verifyToken = drop.config["key", "FB", "validation"]?.string {
+            if let verifyToken = drop.config["keys", "fb", "validation"]?.string {
                 if req.query?["hub.verify_token"]?.string == verifyToken {
                     return req.query!["hub.challenge"]!.string!
                 }else{

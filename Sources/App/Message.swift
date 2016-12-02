@@ -13,7 +13,7 @@ import HTTP
 class Message {
     static func sendMessage(recipientId:String, text:String) {
         do {
-            if let accessToken = drop.config["key", "FB", "access"]?.string {
+            if let accessToken = drop.config["keys", "fb", "access"]?.string {
                 let params = [
                     "access_token" : accessToken
                 ]
