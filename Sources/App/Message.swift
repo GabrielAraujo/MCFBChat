@@ -33,9 +33,10 @@ class Message {
                 let resp = try drop.client.post("https://graph.facebook.com/v2.6/me/messages", headers: headers, query: params, body: data)
                 
                 if resp.status == .ok {
-                    
+                    print("Ok")
                 }
             }else{
+                print("Missing token")
                 //Missing accessToken
             }
         }catch let e {
