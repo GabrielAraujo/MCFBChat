@@ -28,20 +28,22 @@ drop.post("webhook") { req in
     if let json = req.json {
         if json["object"]?.string == "page" {
             for entry in json["entry"]!.array! {
-                if let msg = entry.object?["message"] {
-                    let senderId = entry.object?["sender"]?.object?["id"]?.string //the facebook ID of the person sending you the message
-                    let recipientId = entry.object?["recipient"]?.object?["id"]?.string //the recipient's ID, which should be your page's facebook ID
-                    let text = msg.object?["text"]?.string //the message's text
-                    
-                    Message.sendMessage(recipientId: recipientId!, text: "Received!")
-                    
-                    return "ok"
-                }else if let _ = entry.object?["delivery"] {
-                    return "ok"
-                }else if let _ = entry.object?["optin"] {
-                    return "ok"
-                }else if let _ = entry.object?["postback"] {
-                    return "ok"
+                for msgEvent in entry.object!["messaging"]!.array! {
+                    if let _ = msgEvent.object?["message"] {
+                        let senderId = msgEvent.object?["sender"]?.object?["id"]?.string //the facebook ID of the person sending you the message
+                        let recipientId = msgEvent.object?["recipient"]?.object?["id"]?.string //the recipient's ID, which should be your page's facebook ID
+                        let text = msgEvent.object?["message"]?.object?["text"]?.string //the message's text
+                        
+                        Message.sendMessage(recipientId: recipientId!, text: "Received!")
+                        
+                        return "ok"
+                    }else if let _ = msgEvent.object?["delivery"] {
+                        return "ok"
+                    }else if let _ = msgEvent.object?["optin"] {
+                        return "ok"
+                    }else if let _ = msgEvent.object?["postback"] {
+                        return "ok"
+                    }
                 }
             }
         }
