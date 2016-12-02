@@ -11,7 +11,7 @@ import Vapor
 import HTTP
 
 class Message {
-    static func sendMessage(recipientId:String, text:String) {
+    static func sendMessage(recipientId:String, text:String, completion: @escaping (Result<Bool>) -> Void) {
         print("Entered send message")
         do {
             if let accessToken = drop.config["keys", "fb", "access"]?.string {
@@ -33,15 +33,22 @@ class Message {
                 
                 let resp = try drop.client.post("https://graph.facebook.com/v2.6/me/messages", headers: headers, query: params, body: data)
                 
+                print(resp)
                 if resp.status == .ok {
-                    print("Ok")
+                    print("Resp Ok")
+                    completion(.success(true))
+                }else{
+                    print("Resp Not Ok")
+                    completion(.success(false))
                 }
             }else{
                 print("Missing token")
                 //Missing accessToken
+                completion(.success(false))
             }
         }catch let e {
             print(e)
+            completion(.failure(e))
         }
         
     }
