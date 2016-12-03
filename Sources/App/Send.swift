@@ -27,7 +27,7 @@ class Send {
                 
                 
                 print("Before sending")
-                let resp = try drop.client.post("https://graph.facebook.com/v2.6/me/messages", headers: headers, query: params, body: data)
+                let resp = try drop.client.post("https://graph.facebook.com/v2.8/me/messages", headers: headers, query: params, body: data)
                 
                 print(resp)
                 return resp.status

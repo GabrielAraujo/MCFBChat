@@ -11,12 +11,12 @@ import Vapor
 import HTTP
 
 class Message {
-    static func sendText(to:String, text:String) throws -> Status {
+    static func sendText(to:User, text:String) throws -> Status {
         print("Entered send message")
         print(to)
         do {
             let node = Node([
-                "recipient" : try ["id":to].makeNode(),
+                "recipient" : try ["id":to.fbId].makeNode(),
                 "message": try ["text":text].makeNode()
                 ])
             
@@ -28,12 +28,12 @@ class Message {
         
     }
 
-    static func sendImage(to:String, imageUrl:String) throws -> Status {
+    static func sendImage(to:User, imageUrl:String) throws -> Status {
         print("Entered send image message")
         print(to)
         do {
             let node = Node([
-                "recipient" : try ["id":to].makeNode(),
+                "recipient" : try ["id":to.fbId].makeNode(),
                 "message": try ["text": [
                     "attachment" : try [
                         "type" : "image",

@@ -36,7 +36,17 @@ drop.post("webhook") { req in
                         let text = msgEvent.object?["message"]?.object?["text"]?.string //the message's text
                         
                         do {
-                            return try Response(status: Message.sendText(to: senderId!, text: Answer.process(sender:senderId!, message:text!)))
+                            let sender = User.get(id: senderId!)
+                            
+                            if sender != nil {
+                                let text = Answer.process(sender:sender!, message:text!)
+                                
+                                let status = try Message.sendText(to: sender!, text: text)
+                                
+                                return Response(status: status)
+                            }else{
+                                return Response(status: .badRequest)
+                            }
                         }catch let e {
                             return Response(status: .badRequest, body: "Error sendind message")
                         }
@@ -53,7 +63,9 @@ drop.post("webhook") { req in
                         
                         print("Received postback for user \(senderId) and page \(recipientId) with payload \(payload) at \(timeOfPostback)")
                         
-                        return try Response(status: Message.sendText(to: senderId!, text: "Postback Received!"))
+                        let sender = User.get(id: senderId!)
+                        
+                        return try Response(status: Message.sendText(to: sender!, text: "Postback Received!"))
                     }
                 }
             }
