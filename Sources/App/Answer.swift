@@ -16,7 +16,7 @@ class Answer {
     
     static func process(sender:String, message:String) -> String {
         if self.isGreeting(message: message) {
-            return "Olá {{}}, tudo bem com você?"
+            return "Olá {{user_first_name}}, tudo bem com você?"
         }else{
             return "Desculpe, não consegui te entender! =("
         }
