@@ -37,9 +37,13 @@ drop.post("webhook") { req in
                         
                         do {
                             let sender = User.get(id: senderId!)
+                            let bot = Bot(referAs:"a", firstName:"Mayara")
                             
                             if sender != nil {
-                                let text = Answer.process(sender:sender!, message:text!)
+                                
+                                guard let text = Answer.process(objects:[sender!, bot], message:text!) else {
+                                    return Response(status: .ok)
+                                }
                                 
                                 let status = try Message.sendText(to: sender!, text: text)
                                 

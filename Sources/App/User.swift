@@ -77,33 +77,29 @@ class User {
 }
 
 enum UserRef : String {
-    case fb_id = "@[fb_id]"
-    case first_name = "@[first_name]"
-    case last_name = "@[last_name]"
-    case pic_url = "@[pic_url]"
+    case fb_id = "@[USER.fb_id]"
+    case first_name = "@[USER.first_name]"
+    case last_name = "@[USER.last_name]"
+    case pic_url = "@[USER.pic_url]"
     
     static func replace(user:User, text:String) -> String {
         var txt = text
-        txt = text.replacingOccurrences(of: UserRef.fb_id.rawValue, with: user.fbId)
-        if txt.contains(UserRef.first_name.rawValue) {
+        while txt.contains(UserRef.fb_id.rawValue) || txt.contains(UserRef.first_name.rawValue) || txt.contains(UserRef.last_name.rawValue) || txt.contains(UserRef.pic_url.rawValue) {
+            txt = txt.replacingOccurrences(of: UserRef.fb_id.rawValue, with: user.fbId)
             if let firstName = user.firstName {
-                txt = text.replacingOccurrences(of: UserRef.first_name.rawValue, with: firstName)
+                txt = txt.replacingOccurrences(of: UserRef.first_name.rawValue, with: firstName)
             }else{
-                txt = text.replacingOccurrences(of: UserRef.first_name.rawValue, with: "Fulano")
+                txt = txt.replacingOccurrences(of: UserRef.first_name.rawValue, with: "")
             }
-        }
-        if txt.contains(UserRef.last_name.rawValue) {
             if let lastName = user.lastName {
-                txt = text.replacingOccurrences(of: UserRef.last_name.rawValue, with: lastName)
+                txt = txt.replacingOccurrences(of: UserRef.last_name.rawValue, with: lastName)
             }else{
-                txt = text.replacingOccurrences(of: UserRef.last_name.rawValue, with: "Silva")
+                txt = txt.replacingOccurrences(of: UserRef.last_name.rawValue, with: "")
             }
-        }
-        if txt.contains(UserRef.pic_url.rawValue) {
             if let pic_url = user.picUrl {
-                txt = text.replacingOccurrences(of: UserRef.pic_url.rawValue, with: pic_url)
+                txt = txt.replacingOccurrences(of: UserRef.pic_url.rawValue, with: pic_url)
             }else{
-                txt = text.replacingOccurrences(of: UserRef.pic_url.rawValue, with: "?")
+                txt = txt.replacingOccurrences(of: UserRef.pic_url.rawValue, with: "")
             }
         }
         

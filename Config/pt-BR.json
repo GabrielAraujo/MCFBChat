@@ -1,0 +1,6 @@
+{
+    "answers": [{
+        "type" : "greeting",
+        "responses" : ["Olá @[USER.first_name], eu sou @[BOT.refer_as] @[BOT.first_name], tudo bem com você?"]
+    }]
+}
