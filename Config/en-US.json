@@ -1,6 +1,18 @@
 {
     "answers": [{
         "type" : "greeting",
+        "texts" : ["hi","hello","wassup","whats up?"],
         "responses" : ["Hello @[USER.first_name], I'm @[BOT.first_name], how are you?"]
-    }]
+    },{
+        "type" : "question",
+        "texts" : ["what are your's products?"],
+        "responses" : ["This is our menu.."],
+            "actions" : {
+                "reply" : "This is our menu..",
+                "send_image" : "https://scontent.xx.fbcdn.net/v/t31.0-1/1599815_643777465680264_1717625519_o.jpg?oh=79474a9ff330000bf248ff79d7cfcc66&oe=58BA7121"
+        }
+    }],
+    "not_defined" : {
+        "responses" : ["Sorry @[USER.first_name], I don't know how to answer you! =("]
+    }
 }

@@ -7,26 +7,77 @@
 //
 
 import Foundation
+import Vapor
+import HTTP
 
 class Answer {
     
-    static func process(objects:[Any], message:String) -> String? {
+    static func process(sender:User, message:String) throws -> Status {
         var txt:String?
         
-        let lang = self.identifyLanguage(message: message)
+        let lang = try self.identifyLanguage(sender: sender, message: message)
         guard lang != "none" else {
-            
-            return nil
+             return .ok
         }
+        
+        let bot = Bot(referAs:"a", firstName:"Mayara")
         
         if let answers = drop.config[lang,"answers"]?.array {
             for answer in answers {
                 print(answer)
                 if let type = answer.object?["type"]?.string {
-                    if type == "greeting" {
-                        if let responses = answer.object?["responses"]?.array {
+                    //Greeting message
+                    switch type {
+                    case "greeting":
+                        if let texts = answer.object?["texts"]?.array {
+                            for text in texts {
+                                if let t = text.string {
+                                    if message.lowercased().getLevenshtein(t) < 3 {
+                                        if let responses = answer.object?["responses"]?.array {
+                                            if let value = responses[0].string {
+                                                txt = Answer.makeReferences(objects: [sender, bot], text: value)
+                                                
+                                                if let text = txt {
+                                                    let _ = try Message.sendText(to: sender, text: text)
+                                                    break
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    case "question":
+                        if let texts = answer.object?["texts"]?.array {
+                            for text in texts {
+                                if let t = text.string {
+                                    if message.lowercased().getLevenshtein(t) < 4 {
+                                        if let actions = answer.object?["actions"]?.object {
+                                            if let reply = actions["reply"]?.string {
+                                                txt = Answer.makeReferences(objects: [sender, bot], text: reply)
+                                                
+                                                if let text = txt {
+                                                    let _ = try Message.sendText(to: sender, text: text)
+                                                }
+                                            }
+                                            if let send_image = actions["send_image"]?.string {
+                                                let _ = try Message.sendImage(to: sender, imageUrl: send_image)
+                                            }
+                                        }else{
+                                            //No action defined
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    default:
+                        if let responses = drop.config[lang, "not_defined", "responses"]?.array {
                             if let value = responses[0].string {
-                                txt = value
+                                txt = Answer.makeReferences(objects: [sender, bot], text: value)
+                                
+                                if let text = txt {
+                                    let _ = try Message.sendText(to: sender, text: text)
+                                }
                             }
                         }
                     }
@@ -34,15 +85,20 @@ class Answer {
             }
         }
         
-        guard txt != nil else {
-            return nil
-        }
-        
-        return Answer.makeReferences(objects: objects, text: txt!)
+        return .ok
     }
     
-    fileprivate static func identifyLanguage(message:String) -> String {
+    fileprivate static func identifyLanguage(sender:User, message:String) throws -> String {
         var txt:String = ""
+        
+        let pasts = try Past.all()
+        let past = pasts.filter({ $0.userId == sender.fbId }).first
+        if past != nil {
+            if let lang = past?.language {
+                return lang
+            }
+        }
+        
         if let languages = drop.config["greetings", "languages"]?.array {
             for lang in languages {
                 if let greetings = lang.object?["greetings"]?.array {
@@ -70,6 +126,10 @@ class Answer {
         if txt == "" {
             return "none"
         }
+        
+        var newPast = Past(language: txt, userId: sender.fbId)
+        try newPast.save()
+        
         return txt
     }
     

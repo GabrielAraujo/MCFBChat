@@ -1,7 +1,11 @@
 import Vapor
 import HTTP
+import Fluent
 
 let drop = Droplet()
+let database = Database(MemoryDriver())
+drop.database = database
+drop.preparations += Past.self
 
 drop.get("webhook") { req in
     //If does not work try with req.parameters
@@ -37,15 +41,10 @@ drop.post("webhook") { req in
                         
                         do {
                             let sender = User.get(id: senderId!)
-                            let bot = Bot(referAs:"a", firstName:"Mayara")
                             
                             if sender != nil {
                                 
-                                guard let text = Answer.process(objects:[sender!, bot], message:text!) else {
-                                    return Response(status: .ok)
-                                }
-                                
-                                let status = try Message.sendText(to: sender!, text: text)
+                                let status = try Answer.process(sender: sender!, message:text!)
                                 
                                 return Response(status: status)
                             }else{
