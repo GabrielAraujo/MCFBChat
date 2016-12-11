@@ -1,18 +1,28 @@
 {
     "answers": [{
         "type" : "greeting",
+        "identifier" : "text://generalgreeting",
         "texts" : ["hi","hello","wassup","whats up?"],
-        "responses" : ["Hello @[USER.first_name], I'm @[BOT.first_name], how are you?"]
+        "response" : "Hello @[USER.first_name], I'm @[BOT.first_name], how are you?"
     },{
         "type" : "question",
+        "identifier" : "text:image//kgcake:menuimage",
         "texts" : ["what are your's products?"],
-        "responses" : ["This is our menu.."],
-            "actions" : {
-                "reply" : "This is our menu..",
-                "send_image" : "https://scontent.xx.fbcdn.net/v/t31.0-1/1599815_643777465680264_1717625519_o.jpg?oh=79474a9ff330000bf248ff79d7cfcc66&oe=58BA7121"
+        "actions" : {
+            "reply" : "These are ours cakes by kilogram..",
+            "send_image" : "https://scontent.xx.fbcdn.net/v/t31.0-1/1599815_643777465680264_1717625519_o.jpg?oh=79474a9ff330000bf248ff79d7cfcc66&oe=58BA7121"
+        }
+    },{
+        "type" : "question",
+        "identifier" : "text://feelinglookingfor",
+        "previous" : "text://generalgreeting",
+        "texts" : ["i'm fine and you?", "fine u?", "i'm ok", "fine", "good"],
+        "actions" : {
+            "reply" : "I'm great. What are you looking for?"
         }
     }],
     "not_defined" : {
+        "identifier" : "text://generalunindetified",
         "responses" : ["Sorry @[USER.first_name], I don't know how to answer you! =("]
     }
 }

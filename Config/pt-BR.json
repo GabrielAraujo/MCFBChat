@@ -1,18 +1,29 @@
 {
     "answers": [{
         "type" : "greeting",
+        "identifier" : "text://generalgreeting",
         "texts" : ["olá","oi","eai"],
-        "responses" : ["Olá @[USER.first_name], eu sou @[BOT.refer_as] @[BOT.first_name], tudo bem com você?"]
+        "response" : "Olá @[USER.first_name], eu sou @[BOT.refer_as] @[BOT.first_name], tudo bem com você?"
     },{
         "type" : "question",
-        "texts" : "quais os seus produtos?",
-        "responses" : ["This is our menu.."],
+        "identifier" : "text:image//kgcake:menuimage",
+        "texts" : ["quais os seus produtos?"],
+        "response" : "This is our menu..",
             "actions" : {
-                "reply" : "This is our menu..",
+                "reply" : "Estes são nossos bolos por kilo..",
                 "send_image" : "https://scontent.xx.fbcdn.net/v/t31.0-1/1599815_643777465680264_1717625519_o.jpg?oh=79474a9ff330000bf248ff79d7cfcc66&oe=58BA7121"
             }
+    },{
+        "type" : "question",
+        "identifier" : "text://feelinglookingfor",
+        "previous" : "text://generalgreeting",
+        "texts" : ["Tudo bem e com você?", "Tudo sim e com você?", "Tudo bem", "Bem", "Normal"],
+        "actions" : {
+            "reply" : "Tudo ótimo. Em que posso te ajudar?"
+        }
     }],
     "not_defined" : {
+        "identifier" : "text://generalunindetified",
         "responses" : ["Desculpe @[USER.first_name], Não sei como responder essa! =("]
     }
 }

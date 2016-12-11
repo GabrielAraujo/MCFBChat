@@ -13,6 +13,7 @@ final class Past: Model {
     var id: Node?
     var userId:String?
     var language: String?
+    var previous:String?
     
     // used by fluent internally
     var exists: Bool = false
@@ -27,13 +28,15 @@ final class Past: Model {
         id = try node.extract("id")
         language = try node.extract("language")
         userId = try node.extract("userId")
+        previous = try node.extract("previous")
     }
     
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
             "language": language,
-            "userId" : userId
+            "userId" : userId,
+            "previous" : previous
             ])
     }
 }
@@ -51,6 +54,7 @@ extension Past: Preparation {
             pasts.id()
             pasts.string("language")
             pasts.string("userId")
+            pasts.string("previous")
         }
     }
     

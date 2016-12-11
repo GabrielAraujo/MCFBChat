@@ -20,6 +20,9 @@ class Answer {
              return .ok
         }
         
+        let pasts = try Past.all()
+        var past = pasts.filter({ $0.userId == sender.fbId }).first
+        
         let bot = Bot(referAs:"a", firstName:"Mayara")
         
         if let answers = drop.config[lang,"answers"]?.array {
@@ -33,16 +36,22 @@ class Answer {
                             for text in texts {
                                 if let t = text.string {
                                     if message.lowercased().getLevenshtein(t) < 3 {
-                                        if let responses = answer.object?["responses"]?.array {
-                                            if let value = responses[0].string {
-                                                txt = Answer.makeReferences(objects: [sender, bot], text: value)
-                                                
-                                                if let text = txt {
-                                                    let _ = try Message.sendText(to: sender, text: text)
-                                                    break
+                                        if let response = answer.object?["response"]?.string {
+                                            
+                                            txt = Answer.makeReferences(objects: [sender, bot], text: response)
+                                            
+                                            if let text = txt {
+                                                let status = try Message.sendText(to: sender, text: text)
+                                                if status == .ok {
+                                                    //Store response
+                                                    if let identifier = answer.object?["identifier"]?.string {
+                                                        past?.previous = identifier
+                                                        try past?.save()
+                                                    }
                                                 }
                                             }
                                         }
+                                        return .ok
                                     }
                                 }
                             }
@@ -51,13 +60,27 @@ class Answer {
                         if let texts = answer.object?["texts"]?.array {
                             for text in texts {
                                 if let t = text.string {
-                                    if message.lowercased().getLevenshtein(t) < 4 {
+                                    if message.lowercased().getLevenshtein(t) < 6 {
+                                        if let previous = answer.object?["previous"]?.string {
+                                            if previous != past?.previous {
+                                                break
+                                            }
+                                        }
                                         if let actions = answer.object?["actions"]?.object {
                                             if let reply = actions["reply"]?.string {
                                                 txt = Answer.makeReferences(objects: [sender, bot], text: reply)
                                                 
                                                 if let text = txt {
-                                                    let _ = try Message.sendText(to: sender, text: text)
+                                                    let status = try Message.sendText(to: sender, text: text)
+                                                    if status == .ok {
+                                                        if status == .ok {
+                                                            //Store response
+                                                            if let identifier = answer.object?["identifier"]?.string {
+                                                                past?.previous = identifier
+                                                                try past?.save()
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
                                             if let send_image = actions["send_image"]?.string {
@@ -66,6 +89,7 @@ class Answer {
                                         }else{
                                             //No action defined
                                         }
+                                        return .ok
                                     }
                                 }
                             }
@@ -76,10 +100,18 @@ class Answer {
                                 txt = Answer.makeReferences(objects: [sender, bot], text: value)
                                 
                                 if let text = txt {
-                                    let _ = try Message.sendText(to: sender, text: text)
+                                    let status = try Message.sendText(to: sender, text: text)
+                                    if status == .ok {
+                                        //Store response
+                                        if let identifier = answer.object?["identifier"]?.string {
+                                            past?.previous = identifier
+                                            try past?.save()
+                                        }
+                                    }
                                 }
                             }
                         }
+                        return .ok
                     }
                 }
             }
