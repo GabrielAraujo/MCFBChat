@@ -5,7 +5,7 @@
         "responses" : ["Olá @[USER.first_name], eu sou @[BOT.refer_as] @[BOT.first_name], tudo bem com você?"]
     },{
         "type" : "question",
-        "text" : "quais os seus produtos?",
+        "texts" : "quais os seus produtos?",
         "responses" : ["This is our menu.."],
             "actions" : {
                 "reply" : "This is our menu..",
