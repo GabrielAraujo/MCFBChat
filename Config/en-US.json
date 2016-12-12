@@ -3,7 +3,9 @@
         "type" : "greeting",
         "identifier" : "text://generalgreeting",
         "texts" : ["hi","hello","wassup","whats up?"],
-        "response" : "Hello @[USER.first_name], I'm @[BOT.first_name], how are you?"
+        "actions" : {
+            "reply" : "Hello @[USER.first_name], I'm @[BOT.first_name], how are you?"
+        }
     },{
         "type" : "question",
         "identifier" : "text:image//kgcake:menuimage",
@@ -20,9 +22,30 @@
         "actions" : {
             "reply" : "I'm great. What are you looking for?"
         }
+    },{
+        "type" : "afirmation",
+        "identifier" : "text://buildcake1",
+        "previous" : "text://feelinglookingfor",
+        "texts" : ["build my cake", "build cake", "make cake", "customize cake", "customize"],
+        "actions" : {
+            "quick_reply" : {
+                "text" : "Cool.. Choose the sauce you want:",
+                "options" : [{
+                    "content_type" : "text",
+                    "title" : "White",
+                    "payload" : "BUILDCAKE1_MASSA_BRANCA"
+                },{
+                    "content_type" : "text",
+                    "title" : "Chocolate",
+                    "payload" : "BUILDCAKE1_MASSA_CHOCOLATE"
+                }]
+            }
+        }
     }],
     "not_defined" : {
         "identifier" : "text://generalunindetified",
-        "responses" : ["Sorry @[USER.first_name], I don't know how to answer you! =("]
+        "actions" : {
+            "reply" : "Sorry @[USER.first_name], I don't know how to answer you! =("
+        }
     }
 }
