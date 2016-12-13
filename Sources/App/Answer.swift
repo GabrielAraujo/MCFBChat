@@ -21,7 +21,7 @@ class Answer {
         }
         
         let pasts = try Past.all()
-        var past = pasts.filter({ $0.userId == sender.fbId }).first
+        let past = pasts.filter({ $0.userId == sender.fbId }).first
         
         if let answers = drop.config[lang,"answers"]?.array {
             for answer in answers {
@@ -114,6 +114,15 @@ class Answer {
         }
         if let send_image = data["send_image"]?.string {
             let _ = try Message.sendImage(to: sender, imageUrl: send_image)
+        }
+        if let send_audio = data["send_audio"]?.string {
+            let _ = try Message.sendAudio(to: sender, audioUrl: send_audio)
+        }
+        if let send_file = data["send_file"]?.string {
+            let _ = try Message.sendFile(to: sender, fileUrl: send_file)
+        }
+        if let send_video = data["send_video"]?.string {
+            let _ = try Message.sendVideo(to: sender, videoUrl: send_video)
         }
         if let quick_reply = data["quick_reply"]?.object {
             if let text = quick_reply["text"]?.string {

@@ -130,4 +130,92 @@ class Message {
             return .badRequest
         }
     }
+    
+    //This template accepts only buttons of type URL and postback
+    static func sendButtonTemplate(to:User, text:String, buttons:[FBButton]) throws -> Status {
+        print("Entered send Button template")
+        do {
+            let node = Node([
+                "recipient" : try ["id":to.fbId].makeNode(),
+                "message" : try ["attachment" : [
+                    "type" : "template",
+                    "payload": try [
+                        "template_type":"button",
+                        "text":text,
+                        "buttons":  FBButton.makeNode(objs: buttons)
+                        ].makeNode()
+                    ].makeNode()
+                    ].makeNode()
+                ])
+            return try Send.send(data: node)
+        }catch let e {
+            print(e)
+            return .badRequest
+        }
+    }
+    
+    //This accepts all buttons
+    static func sendGenericTemplate(to:User, text:String, buttons:[FBButton]) throws -> Status {
+        print("Entered send Button template")
+        do {
+            let node = Node([
+                "recipient" : try ["id":to.fbId].makeNode(),
+                "message" : try ["attachment" : [
+                    "type" : "template",
+                    "payload": try [
+                        "template_type":"generic",
+                        "text":text,
+                        "buttons":  FBButton.makeNode(objs: buttons)
+                        ].makeNode()
+                    ].makeNode()
+                    ].makeNode()
+                ])
+            return try Send.send(data: node)
+        }catch let e {
+            print(e)
+            return .badRequest
+        }
+    }
+    
+    static func markSeen(to:User) throws -> Status {
+        print("Entered markSeen")
+        do {
+            let node = Node([
+                "recipient" : try ["id":to.fbId].makeNode(),
+                "sender_action" : "mark_seen"
+                ])
+            return try Send.send(data: node)
+        }catch let e {
+            print(e)
+            return .badRequest
+        }
+    }
+    
+    static func typingOn(to:User) throws -> Status {
+        print("Entered typingOn")
+        do {
+            let node = Node([
+                "recipient" : try ["id":to.fbId].makeNode(),
+                "sender_action" : "typing_on"
+                ])
+            return try Send.send(data: node)
+        }catch let e {
+            print(e)
+            return .badRequest
+        }
+    }
+    
+    static func typingOff(to:User) throws -> Status {
+        print("Entered typingOff")
+        do {
+            let node = Node([
+                "recipient" : try ["id":to.fbId].makeNode(),
+                "sender_action" : "typing_off"
+                ])
+            return try Send.send(data: node)
+        }catch let e {
+            print(e)
+            return .badRequest
+        }
+    }
 }
