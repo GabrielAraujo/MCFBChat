@@ -41,6 +41,41 @@
                 }]
             }
         }
+    },{
+        "type" : "afirmation",
+        "identifier" : "text://buildcake2",
+        "previous" : "text://buildcake1",
+        "texts" : ["massa de chocolate", "massa branca"],
+        "actions" : {
+            "quick_reply" : {
+                "text" : "Ok.. Qual o recheio?",
+                "options" : [{
+                    "content_type" : "text",
+                    "title" : "Leite ninho",
+                    "payload" : "BUILDCAKE2_LEITE_NINHO"
+                },{
+                    "content_type" : "text",
+                    "title" : "Brigadeiro com morango",
+                    "payload" : "BUILDCAKE2_BRIG_MORANGO"
+                },{
+                    "content_type" : "text",
+                    "title" : "Mesclado",
+                    "payload" : "BUILDCAKE2_MESCLADO"
+                },{
+                    "content_type" : "text",
+                    "title" : "Óreo",
+                    "payload" : "BUILDCAKE2_OREO"
+                },{
+                    "content_type" : "text",
+                    "title" : "Paçoquita",
+                    "payload" : "BUILDCAKE2_PACOQUITA"
+                },{
+                    "content_type" : "text",
+                    "title" : "Leite ninho com morango",
+                    "payload" : "BUILDCAKE2_NINHO_MORANG"
+                }]
+            }
+        }
     }],
     "not_defined" : {
         "identifier" : "text://generalunindetified",
