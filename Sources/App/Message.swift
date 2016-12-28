@@ -131,43 +131,16 @@ class Message {
         }
     }
     
-    //This template accepts only buttons of type URL and postback
-    static func sendButtonTemplate(to:User, text:String, buttons:[FBButton]) throws -> Status {
+    static func sendTemplate(to:User, text:String, template:FBTemplate) throws -> Status {
         print("Entered send Button template")
         do {
-            let node = Node([
+            let node = try Node(node: [
                 "recipient" : try ["id":to.fbId].makeNode(),
-                "message" : try ["attachment" : [
-                    "type" : "template",
-                    "payload": try [
-                        "template_type":"button",
-                        "text":text,
-                        "buttons":  FBButton.makeNode(objs: buttons)
+                "message" : try [
+                    "attachment" : try [
+                        "type" : "template",
+                        "payload": try template.makeNode()
                         ].makeNode()
-                    ].makeNode()
-                    ].makeNode()
-                ])
-            return try Send.send(data: node)
-        }catch let e {
-            print(e)
-            return .badRequest
-        }
-    }
-    
-    //This accepts all buttons
-    static func sendGenericTemplate(to:User, text:String, buttons:[FBButton]) throws -> Status {
-        print("Entered send Button template")
-        do {
-            let node = Node([
-                "recipient" : try ["id":to.fbId].makeNode(),
-                "message" : try ["attachment" : [
-                    "type" : "template",
-                    "payload": try [
-                        "template_type":"generic",
-                        "text":text,
-                        "buttons":  FBButton.makeNode(objs: buttons)
-                        ].makeNode()
-                    ].makeNode()
                     ].makeNode()
                 ])
             return try Send.send(data: node)

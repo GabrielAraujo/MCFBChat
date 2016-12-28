@@ -153,6 +153,10 @@ class Answer {
                 }
             }
         }
+        if let template = data["template"]?.object {
+            var temp = FBTemplate()
+            
+        }
     }
     
     fileprivate static func identifyLanguage(sender:User, message:String) throws -> String {

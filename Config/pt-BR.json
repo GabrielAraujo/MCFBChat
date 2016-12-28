@@ -76,6 +76,27 @@
                 }]
             }
         }
+    },{
+        "type" : "question",
+        "identifier" : "",
+        "previous" : "",
+        "texts" : ["",""],
+        "actions" : {
+            "template" : {
+                "type" : "button",
+                "text" : "BLA BLA BLA",
+                "buttons" : [{
+                    "type" : "web_url",
+                    "url" : "http://google.com",
+                    "title" : "TITLE",
+                    "webview_height_ratio" : "full"
+                },{
+                    "type" : "postback",
+                    "title" : "TITLE",
+                    "payload" : "PAYLOAD_TEXT"
+                }]
+            }
+        }
     }],
     "not_defined" : {
         "identifier" : "text://generalunindetified",
