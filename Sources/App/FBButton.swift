@@ -29,6 +29,8 @@ class FBButton {
     var url:String?
     var heightRatio:HeightRatio?
     var payload:String?
+    //var messenger_extensions
+    //var fallback_url
     
     func makeNode() throws -> Node {
         return try Node(node: [
