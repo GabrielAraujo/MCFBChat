@@ -24,14 +24,24 @@ class FBTemplate {
     var bellowButtons:[FBButton]?
 
     func makeNode() throws -> Node {
-        return try Node(node: [
-            "template_type" : type.rawValue,
-            "text" : text,
+        var buttons:[FBButton]!
+        if self.buttons != nil {
+            buttons = self.buttons
+        }else{
+            buttons = self.bellowButtons
+        }
+        var dict = [
+            "template_type" : try Node(node: type.rawValue),
+            "text" : try Node(node: text),
             "buttons" : try FBButton.makeNode(objs: buttons),
-            "top_element_style" : topElementStyle,
-            "elements" : try FBElement.makeNode(objs: elements),
-            "buttons" : try FBButton.makeNode(objs: bellowButtons)
-            ])
+            "top_element_style" : try Node(node: topElementStyle),
+            "elements" : try FBElement.makeNode(objs: elements)
+        ] as [String : Node?]
+        let keysToRemove = dict.keys.array.filter { dict[$0]! == nil || (dict[$0]! as Node?) == Node.null }
+        for key in keysToRemove {
+            dict.removeValue(forKey: key)
+        }
+        return try Node(node: dict)
     }
     
     class func makeNode(objs:[FBTemplate]?) throws -> Node? {

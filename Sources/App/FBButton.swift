@@ -33,13 +33,18 @@ class FBButton {
     //var fallback_url
     
     func makeNode() throws -> Node {
-        return try Node(node: [
+        var dict = [
             "type" : type.rawValue,
             "title" : title,
             "url" : url,
             "webview_height_ratio" : heightRatio?.rawValue,
             "payload" : payload
-            ])
+        ]
+        let keysToRemove = dict.keys.array.filter { dict[$0]! == nil }
+        for key in keysToRemove {
+            dict.removeValue(forKey: key)
+        }
+        return try Node(node: dict)
     }
     
     class func makeNode(objs:[FBButton]?) throws -> Node? {

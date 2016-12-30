@@ -131,8 +131,8 @@ class Message {
         }
     }
     
-    static func sendTemplate(to:User, text:String, template:FBTemplate) throws -> Status {
-        print("Entered send Button template")
+    static func sendTemplate(to:User, template:FBTemplate) throws -> Status {
+        print("Entered send Template")
         do {
             let node = try Node(node: [
                 "recipient" : try ["id":to.fbId].makeNode(),

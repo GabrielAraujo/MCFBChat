@@ -48,7 +48,7 @@ class Answer {
                         if let texts = answer.object?["texts"]?.array {
                             for text in texts {
                                 if let t = text.string {
-                                    if message.lowercased().getLevenshtein(t) < 6 {
+                                    if message.lowercased().getLevenshtein(t) < 2 {
                                         if let previous = answer.object?["previous"]?.string {
                                             if previous != past?.previous {
                                                 break
@@ -68,7 +68,7 @@ class Answer {
                         if let texts = answer.object?["texts"]?.array {
                             for text in texts {
                                 if let t = text.string {
-                                    if message.lowercased().getLevenshtein(t) < 3 {
+                                    if message.lowercased().getLevenshtein(t) < 2 {
                                         if let previous = answer.object?["previous"]?.string {
                                             if previous != past?.previous {
                                                 break
@@ -154,7 +154,7 @@ class Answer {
             }
         }
         if let template = data["template"]?.object {
-            var temp = FBTemplate()
+            let temp = FBTemplate()
             if let type = template["type"]?.string {
                 temp.type = FBTemplateType(rawValue: type)
                 switch type {
@@ -240,6 +240,7 @@ class Answer {
                                     element.buttons?.append(button)
                                 }
                             }
+                            temp.elements?.append(element)
                         }
                     }
                     break
@@ -300,11 +301,17 @@ class Answer {
                                     element.buttons?.append(button)
                                 }
                             }
+                            temp.elements?.append(element)
                         }
                     }
                     break
                 default:
                     break
+                }
+                let status = try Message.sendTemplate(to: sender, template: temp)
+                if status == .ok {
+                    past?.previous = identifier
+                    try past?.save()
                 }
             }
         }
