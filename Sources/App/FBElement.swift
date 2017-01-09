@@ -17,18 +17,19 @@ class FBElement {
     var buttons:[FBButton]?
     
     func makeNode() throws -> Node {
-        var dict = [
+        let dict = [
             "title" : try Node(node: title),
             "subtitle" : try Node(node: subtitle),
             "image_url" : try Node(node: imageUrl),
             "default_action" : try defaultAction?.makeNode(),
             "buttons" : try FBButton.makeNode(objs: buttons)
         ] as [String : Node?]
-        let keysToRemove = dict.keys.array.filter { dict[$0]! == nil || (dict[$0]! as Node?) == Node.null }
-        for key in keysToRemove {
-            dict.removeValue(forKey: key)
-        }
-        return try Node(node: dict)
+        let cleanedDict = dict.keys.array.flatMap { $0 }
+//        let keysToRemove = dict.keys.array.filter { dict[$0]! == nil || (dict[$0]! as Node?) == Node.null }
+//        for key in keysToRemove {
+//            dict.removeValue(forKey: key)
+//        }
+        return try Node(node: cleanedDict)
     }
     
     class func makeNode(objs:[FBElement]?) throws -> Node? {

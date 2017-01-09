@@ -122,7 +122,7 @@ enum UserRef : String {
                 txt = txt.replacingOccurrences(of: UserRef.locale.rawValue, with: "")
             }
             if let timezone = user.timezone {
-                txt = txt.replacingOccurrences(of: UserRef.timezone.rawValue, with: timezone)
+                txt = txt.replacingOccurrences(of: UserRef.timezone.rawValue, with: "\(timezone)")
             }else{
                 txt = txt.replacingOccurrences(of: UserRef.timezone.rawValue, with: "")
             }
