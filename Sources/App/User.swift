@@ -32,7 +32,6 @@ class User {
         
         let URL = User.url + user.fbId
         
-        print(drop.config["aloha", "aloha"]?.string as Any)
         if let accessToken = drop.config["keys", "fb", "access"]?.string {
             
             let params = [

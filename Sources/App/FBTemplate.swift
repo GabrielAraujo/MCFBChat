@@ -30,19 +30,18 @@ class FBTemplate {
         }else{
             buttons = self.bellowButtons
         }
-        let dict = [
+        var dict = [
             "template_type" : try Node(node: type.rawValue),
             "text" : try Node(node: text),
             "buttons" : try FBButton.makeNode(objs: buttons),
             "top_element_style" : try Node(node: topElementStyle),
             "elements" : try FBElement.makeNode(objs: elements)
         ] as [String : Node?]
-        let cleanedDict = dict.keys.array.flatMap { $0 }
-//        let keysToRemove = dict.keys.array.filter { dict[$0]! == nil || (dict[$0]! as Node?) == Node.null }
-//        for key in keysToRemove {
-//            dict.removeValue(forKey: key)
-//        }
-        return try Node(node: cleanedDict)
+        let keysToRemove = dict.keys.array.filter { dict[$0]! == nil || (dict[$0]! as Node?) == Node.null }
+        for key in keysToRemove {
+            dict.removeValue(forKey: key)
+        }
+        return try Node(node: dict)
     }
     
     class func makeNode(objs:[FBTemplate]?) throws -> Node? {
