@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Basic Template
 
 A basic vapor template for starting a new Vapor web application. If you're using vapor toolbox, you can use: `vapor new --template=basic`
@@ -17,4 +16,3 @@ This package has been tested on macOS and Ubuntu.
 =======
 # MCFBChat
 Facebook Messenger Bot for Momento Cake Bakery Store
->>>>>>> a831b7944065c535447c8e0d493c25f134a4e7d6
