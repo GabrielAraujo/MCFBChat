@@ -1,11 +1,11 @@
 {
     "languages" : [{
-        "lang" : "pt-BR",
+        "lang" : "ptbr",
         "greetings" : ["olá","oi","eai"],
         "answers" : ["Olá @[USER.first_name], eu sou @[BOT.refer_as] @[BOT.first_name], tudo bem com você?"]
     },
     {
-        "lang" : "en-US",
+        "lang" : "enus",
         "greetings" : ["hi","hello","wassup","whats up?"],
         "answers" : ["Hello @[USER.first_name], I'm @[BOT.first_name], how are you?"]
     }]
